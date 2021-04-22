@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const routes = require('./routes/routes');
 
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/Doctor', {useNewUrlParser: true});
+mongoose.connect('mongodb://localhost/', {useNewUrlParser: true});
 mongoose.connection.on('connected', err => {
     console.log("Connected");
     //logError(err);

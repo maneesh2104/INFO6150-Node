@@ -1,4 +1,5 @@
 const Doctors = require('../models/Doctor')
+const User = require('../models/User')
 
 module.exports = (app) => {
 
@@ -95,6 +96,51 @@ module.exports = (app) => {
 
         else{
             var rec = new Doctors(req.body);
+            rec.save(function(err, n) {
+                if (err)
+                    console.log('saving failed');
+                console.log('saved ' + n.email);
+                res.status(201)
+                res.json(n);
+            });
+        }
+
+    });
+
+    app.post('/user/signin', function(req, res) {
+        User.findOne(req.body, function(err,obj) {
+             if(obj==null){
+                res.status(400);
+                res.json({"message":"Record not found"});
+             }
+             else{
+                 console.log(obj);
+                res.status(200);
+                res.json({"message":"Sucessfully logged in"});
+             }
+            });        
+    });
+
+    app.post('/user/signup', function(req, res) {
+
+        var regexEmail = /([\w.]+)@([\w\.]+)\.(\w+)/;
+        var regexpassw = /^[A-Za-z]\w{7,14}$/;
+        var email = req.body.email;
+        var password = req.body.password;
+
+        if ( !email.trim().match( regexEmail ) )
+        {
+            res.status(400);
+            res.json({"message":"Email not valid"});
+        }
+
+        else if(!password.trim().match( regexpassw ) ){
+            res.status(400);
+            res.json({"message":"Password not valid, should be between 6 to 20 characters which contain at least one numeric digit, one uppercase and one lowercase letter"});
+        }
+
+        else{
+            var rec = new User(req.body);
             rec.save(function(err, n) {
                 if (err)
                     console.log('saving failed');
