@@ -1,3 +1,5 @@
+
+const cors = require('cors')
 const express = require('express')
 const app = express()
 const port = 3000
@@ -14,7 +16,9 @@ mongoose.connection.on('connected', err => {
 //body-parser
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(cors());
 routes(app);
+
 //cors
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");

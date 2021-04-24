@@ -7,6 +7,6 @@ module.exports = mongoose.model('Doctor', {
     address: {type:String, default:""},
     qualification: {type:String, default:""},
     review: {type:String, default:""},
-    timings: {type:Object, default:{"timings":[]}}
-
+    timings: {type:Object, default:{"timings":[]}},
+    specality: {type:String, default:""},
 });

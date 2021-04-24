@@ -27,6 +27,21 @@ module.exports = (app) => {
         });
     });
 
+    app.post('/doctor/search', function(req, res) {
+        Doctors.find(req.body, function(err,obj) {
+            console.log("Inside search")
+             if(obj==null){
+                res.status(400);
+                res.json({"message":"Record not found"});
+             }
+             else{
+                res.status(200);
+                res.json(obj);
+             }
+            });        
+    });
+    
+
     app.put('/doctor/edit', function(req, res) {
         var regexEmail = /([\w.]+)@([\w\.]+)\.(\w+)/;
         var regexpassw = /^[A-Za-z]\w{7,14}$/;
@@ -153,20 +168,6 @@ module.exports = (app) => {
         }
 
         else{
-            var mailOptions = {
-                from: 'maneesh12325@gmail.com',
-                to: email,
-                subject: 'Welcome to MediConnect',
-                text: 'Hey I’m [name], the founder of [company name] and I’d like to personally thank you for signing up to our service.We established [company name] in order to [mission/values of company].I’d love to hear what you think of [product] and if there is anything we can improve. If you have any questions, please reply to this email. I’m always happy to help![name]'
-              };
-              
-              transporter.sendMail(mailOptions, function(error, info){
-                if (error) {
-                  console.log(error);
-                } else {
-                  console.log('Email sent: ' + info.response);
-                }
-              });
             var rec = new User(req.body);
             rec.save(function(err, n) {
                 if (err)
